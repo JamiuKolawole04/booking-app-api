@@ -35,21 +35,8 @@ app.get("/", (req, res) => {
 });
 
 
-// app.use((err, req, res, next) => {
-//     const errorStatus = err.status || 500;
-//     const errorMsg = err.message || "Something went wrong!";
-
-//     return res.status(errorStatus).json({
-//         success: false,
-//         statusCode: errorStatus,
-//         message: errorMsg,
-//         stack: err.stack,
-//     });
-// });
-
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-
 
 
 const server = async () => {

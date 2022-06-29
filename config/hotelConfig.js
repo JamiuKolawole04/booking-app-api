@@ -24,8 +24,30 @@ const getHotelConfig = (id) => {
     return Hotels.findOne({ _id: id })
 }
 
-const getHotelsConfig = () => {
-    return Hotels.find({});
+const getHotelsConfig = (query, min = 1, max = 999, limit) => {
+    // return Hotels.find(query).limit(limit);
+    return Hotels.find({
+        ...query,
+        cheapestPrice: { $gt: min, $lt: max },
+    }).limit(limit);
+
+}
+
+const countDocuments = (doc, type) => {
+    if (type === "cities") {
+        return Hotels.countDocuments({ city: doc })
+    } else if (type === "hotel") {
+        return Hotels.countDocuments({ type: type })
+    } else if (type === "apartment") {
+        return Hotels.countDocuments({ type: type })
+    } else if (type === "resort") {
+        return Hotels.countDocuments({ type: type })
+    } else if (type === "villa") {
+        return Hotels.countDocuments({ type: type })
+    } else {
+        return Hotels.countDocuments({ type: "cabin" })
+    }
+    // return Hotels.countDocuments({ city: city })
 }
 
 module.exports = {
@@ -33,5 +55,6 @@ module.exports = {
     updateHotelConfig,
     deleteHotelConfig,
     getHotelConfig,
-    getHotelsConfig
+    getHotelsConfig,
+    countDocuments
 }
