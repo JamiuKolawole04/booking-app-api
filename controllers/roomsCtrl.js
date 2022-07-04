@@ -6,9 +6,12 @@ const {
     updateRoomConfig,
     deleteRoomConfig,
     getRoomConfig,
-    getRoomsConfig
+    getRoomsConfig,
+    updateOneRoomConfig
 } = require("../config/roomsConfig");
 const Hotel = require("../models/hotel");
+const { BadRequestError } = require("../errors")
+
 
 const createRoom = asyncWrapper(async (req, res, next) => {
     // getting id from already created hotels
@@ -74,7 +77,27 @@ const updateRoom = asyncWrapper(async (req, res) => {
             updatedRoom
         })
 
-})
+});
+
+// UPDATE ROOM AVAILABILITY
+const updateRoomAvailability = asyncWrapper(async (req, res, next) => {
+    const { date } = req.body;
+    const { id } = req.params;
+
+    if (!date || !id) {
+        return next(BadRequestError("could not update room"));
+    }
+
+    await updateOneRoomConfig(id, date);
+    res
+        .status(StatusCodes.OK)
+        .json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            msg: "Room status has been updated"
+        })
+
+});
 
 
 //DELETE ROOM
@@ -106,5 +129,6 @@ module.exports = {
     updateRoom,
     deleteRoom,
     getRoom,
-    getRooms
+    getRooms,
+    updateRoomAvailability
 }

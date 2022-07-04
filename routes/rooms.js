@@ -5,7 +5,8 @@ const {
     updateRoom,
     deleteRoom,
     getRoom,
-    getRooms
+    getRooms,
+    updateRoomAvailability
 } = require("../controllers/roomsCtrl");
 
 
@@ -25,7 +26,7 @@ router.route("/:id")
     .get(getRoom)
     .put(verifyAdmin, updateRoom)
 
-
+router.put("/availability/:id", updateRoomAvailability)
 // DELETE ROOM    
 router.delete("/:id/:hotelid", verifyAdmin, deleteRoom);
 

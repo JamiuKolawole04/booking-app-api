@@ -9,6 +9,7 @@ const {
     countDocuments
 
 } = require("../config/hotelConfig");
+const { getRoomConfig } = require("../config/roomsConfig")
 const asyncWrapper = require("../middleware/async-wrapper");
 // const { UnauthenticatedError, BadRequestError, NotFoundError } = require("../errors/index")
 
@@ -125,6 +126,25 @@ const countByType = asyncWrapper(async (req, res) => {
         })
 });
 
+
+// GET HOTEL ROOMS
+const getHotelRooms = asyncWrapper(async (req, res) => {
+    const hotel = await getHotelConfig(req.params.id);
+    const list = await Promise.all(hotel.rooms.map((room) => {
+        return getRoomConfig(room)
+    }));
+
+    res
+        .status(StatusCodes.OK)
+        .json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            nbHits: list.length,
+            list
+        });
+});
+
+
 module.exports = {
     createHotel,
     updateHotel,
@@ -132,5 +152,6 @@ module.exports = {
     getHotel,
     getHotels,
     countByCity,
-    countByType
+    countByType,
+    getHotelRooms
 }

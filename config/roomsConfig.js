@@ -29,11 +29,24 @@ const deleteRoomConfig = (id) => {
     return Room.findByIdAndDelete(id);
 }
 
+const updateOneRoomConfig = (id, date) => {
+    return Room.updateOne(
+        { "roomNumbers._id": id },
+        {
+            $push: {
+                "roomNumbers.$.unavailableDates": date
+            }
+        },
+        { new: true }
+    )
+}
+
 
 module.exports = {
     createRoomConfig,
     updateRoomConfig,
     getRoomConfig,
     getRoomsConfig,
-    deleteRoomConfig
+    deleteRoomConfig,
+    updateOneRoomConfig
 }

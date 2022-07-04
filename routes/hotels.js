@@ -7,7 +7,8 @@ const {
     getHotel,
     getHotels,
     countByCity,
-    countByType
+    countByType,
+    getHotelRooms
 
 } = require("../controllers/hotelsCtrl");
 const { verifyAdmin } = require("../utils/jwt");
@@ -23,7 +24,8 @@ router.route("/")
 // GET HOTELS BY CITY    
 router.get("/countByCity", countByCity);
 // GET HOTELS BT TYPE
-router.get("/countByType", countByType)
+router.get("/countByType", countByType);
+router.get("/room/:id", getHotelRooms);
 
 
 // GET HOTEL
